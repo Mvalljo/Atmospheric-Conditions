@@ -15,12 +15,15 @@
         <h1>Weather Dashboard</h1>
     </header>
     <div class="float-left col-lg-3 p-3">
+        <!--Search for city -->
         <h2><strong>Search for a City:</strong> </h2>
         <input id="city" type="text" class="form-control mb-3" placeholder="San Diego">
         <button type="button" class="mp-2 btn btn-primary btn-block">Search</button>
+        <!--Search history shown as buttons -->
+        <ul style="height: 100px;">
+            <button type="button" id="history" class="mp-2 btn btn-primary d-none"></button>
+        </ul>
     </div>
-
-    <!--Search history shown as buttons -->
 
     <!--Search results: 
         city name/date/icon of weather conditions
@@ -29,7 +32,78 @@
         huminity
         UV index 
     -->
+    <div class="card border border-dark mt-3" style="width: 74%;">
+        <div class="card-body">
+            <h3 class="card-title"></h3>
+            <p class="card-text" id="tempt"></p>
+            <p class="card-text" id="wind"></p>
+            <p class="card-text" id="huminity"></p>
+            <p class="card-text" id="UV index"></p>
+        </div>
+    </div>
+
     <!--5-Day Forecast-->
+
+    <div class="row mt-3" id="forecast">
+        <div class="col-lg-12">
+            <h4><strong>5-Day Forecast:</strong></h4>
+        </div>
+        <div class="col-md-2">
+            <div class="card" style="max-width: 10rem;">
+                <div class="card-body">
+                    <h3 class="card-title"></h3>
+                    <p class="card-text" id="tempt"></p>
+                    <p class="card-text" id="wind"></p>
+                    <p class="card-text" id="huminity"></p>
+                    <p class="card-text" id="UV index"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card" style="max-width: 10rem;">
+                <div class="card-body">
+                    <h3 class="card-title"></h3>
+                    <p class="card-text" id="tempt"></p>
+                    <p class="card-text" id="wind"></p>
+                    <p class="card-text" id="huminity"></p>
+                    <p class="card-text" id="UV index"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card" style="max-width: 10rem;">
+                <div class="card-body">
+                    <h3 class="card-title"></h3>
+                    <p class="card-text" id="tempt"></p>
+                    <p class="card-text" id="wind"></p>
+                    <p class="card-text" id="huminity"></p>
+                    <p class="card-text" id="UV index"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 ">
+            <div class="card" style="max-width: 10rem;">
+                <div class="card-body">
+                    <h3 class="card-title"></h3>
+                    <p class="card-text" id="tempt"></p>
+                    <p class="card-text" id="wind"></p>
+                    <p class="card-text" id="huminity"></p>
+                    <p class="card-text" id="UV index"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card" style="max-width: 10rem;">
+                <div class="card-body">
+                    <h3 class="card-title"></h3>
+                    <p class="card-text" id="tempt"></p>
+                    <p class="card-text" id="wind"></p>
+                    <p class="card-text" id="huminity"></p>
+                    <p class="card-text" id="UV index"></p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="./assets/JS/script.js"></script>
 </body>
