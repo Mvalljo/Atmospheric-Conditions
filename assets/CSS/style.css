@@ -1,3 +1,7 @@
 header {
     background: linear-gradient(to left, #000040 0%, #3366be 74%);
 }
+#forecast{
+    background-color: rgb(66, 54, 235);
+    color: white;
+}

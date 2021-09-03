@@ -11,12 +11,14 @@ var storedCity = [];
 var latLocation;
 var lonLocation;
 
+//Saves users city to local storage
 function getCity() {
     city = document.getElementById('city').value;
     storedCity.push(city);
     localStorage.setItem('storedCity', JSON.stringify(storedCity));
 }
 
+//Retrieves user city from local storage and appears as button
 var retrieveCity = JSON.parse(localStorage.getItem('storedCity'));
 if (retrieveCity !== null) {
     for (let i = 0; i < retrieveCity.length; i++) {
@@ -28,9 +30,10 @@ if (retrieveCity !== null) {
     }
 }
 
-
+//Displays the citys current weather and five day forecast
 function getApi() {
     getCity();
+    //Display the current weather
     var queryUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey + "&units=imperial";
 
     fetch(queryUrl)
@@ -44,12 +47,12 @@ function getApi() {
             var dt = new Date(data.dt * 1000);
             var day = dt.getUTCDate();
             var year = dt.getUTCFullYear();
-            var month = dt.getUTCMonth()+1;
+            var month = dt.getUTCMonth() + 1;
             var iconcode = data.weather[0].icon;
             var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
             document.getElementById('wicon').setAttribute("class", "");
             document.getElementById('wicon').src = iconurl;
-            currentDay.textContent = data.name +" ("+month+"/"+day+"/"+year+")";
+            currentDay.textContent = data.name + " (" + month + "/" + day + "/" + year + ")";
             currentTemp.textContent = data.main.temp + " °F";
             currentWind.textContent = data.wind.speed + " MPH";
             currentHumidity.textContent = data.main.humidity + " %";
@@ -81,7 +84,32 @@ function getApi() {
                     currentUV.appendChild(uviIndex);
                 })
         })
+    //Displays citys five day forecast
+    var fiveDayW = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&cnt=5&appid=" + apiKey + "&units=imperial";
+    fetch(fiveDayW)
+        .then(function (response) {
+            return response.json();
+        })
 
-
+        .then(function (data) {
+            //Using console.log to examine the data
+            console.log(data);
+            for (let b = 0; b < 5; b++) {
+                console.log(data.list[b])
+                var dtF = new Date(data.list[b].dt * 1000);
+                var dayF = dtF.getUTCDate();
+                var yearF = dtF.getUTCFullYear();
+                var monthF = dtF.getUTCMonth() + 1;
+                var iconcode = data.list[b].weather[0].icon;
+                var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+                document.getElementById('wiconF'+[b]).setAttribute("class", "");
+                document.getElementById('wiconF'+[b]).src = iconurl;
+                document.getElementById('forecastD'+[b]).textContent =" (" + monthF + "/" + dayF + "/" + yearF + ")";
+                document.getElementById('tempt'+[b]).textContent = "Temp: " + data.list[b].main.temp + " °F";
+                document.getElementById('wind'+[b]).textContent = "Wind: " + data.list[b].wind.speed + " MPH";
+                document.getElementById('humidity'+[b]).textContent = "Humidity: " + data.list[b].main.humidity + " %";
+            }
+        })
 }
+//When submit button is clicked displays users city current weather and 5 day forecast
 fetchButton.addEventListener('click', getApi);
