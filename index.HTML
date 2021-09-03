@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Weather Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/CSS/style.css">
 </head>
@@ -18,11 +18,9 @@
         <!--Search for city -->
         <h2><strong>Search for a City:</strong> </h2>
         <input id="city" type="text" class="form-control mb-3" placeholder="San Diego">
-        <button type="button" class="mp-2 btn btn-primary btn-block">Search</button>
+        <button type="button" id = "searchBtn" class="mp-2 btn btn-primary btn-block">Search</button>
         <!--Search history shown as buttons -->
-        <ul style="height: 100px;">
-            <button type="button" id="history" class="mp-2 btn btn-primary d-none"></button>
-        </ul>
+        <ul class = "mt-3 p-0" style="height: 100px;"></ul>
     </div>
 
     <!--Search results: 
@@ -33,12 +31,12 @@
         UV index 
     -->
     <div class="card border border-dark mt-3" style="width: 74%;">
-        <div class="card-body">
-            <h3 class="card-title"></h3>
-            <p class="card-text" id="tempt"></p>
-            <p class="card-text" id="wind"></p>
-            <p class="card-text" id="huminity"></p>
-            <p class="card-text" id="UV index"></p>
+        <div class="card-body" >
+            <h3 class="card-title"><strong id="currentDay"></strong><img id="wicon" class="d-none" src="" alt="Weather icon"></h3>
+            <p class="card-text">Temp: <span id="currentTempt"></span></p>
+            <p class="card-text" >Wind: <span id="currentWind"></span></p>
+            <p class="card-text" >Humidity: <span id="currentHumidity"></span></p>
+            <p class="card-text" id="currentUV">UV Index: </p>
         </div>
     </div>
 
@@ -104,7 +102,7 @@
             </div>
         </div>
     </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="./assets/JS/script.js"></script>
 </body>
 
