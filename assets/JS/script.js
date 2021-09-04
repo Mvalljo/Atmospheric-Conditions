@@ -27,8 +27,6 @@ function getApi(cityN) {
         })
 
         .then(function (data) {
-            //Using console.log to examine the data
-            console.log(data);
             var dt = new Date(data.dt * 1000);
             var day = dt.getUTCDate();
             var year = dt.getUTCFullYear();
@@ -43,14 +41,13 @@ function getApi(cityN) {
             currentHumidity.textContent = data.main.humidity + " %";
             latLocation = data.coord['lat'];
             lonLocation = data.coord['lon'];
-            var uvUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latLocation + "&lon=" + lonLocation + "&exclude=minutely,hourly,daily,alerts&appid=" + apiKey;
+            var uvUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latLocation + "&lon=" + lonLocation + "&exclude=minutely,hourly,alerts&appid=" + apiKey + "&units=imperial";
             fetch(uvUrl)
                 .then(function (response) {
                     return response.json();
                 })
 
                 .then(function (data) {
-                    console.log(data);
                     uviNum = Math.round(data.current.uvi);
                     var uviIndex = document.createElement('span');
                     if (uviNum >= 0 && uviNum <= 2) {
@@ -63,34 +60,26 @@ function getApi(cityN) {
                     uviIndex.textContent = uviNum;
                     currentUV.innerHTML = "UV Index: ";
                     currentUV.appendChild(uviIndex);
+                    //Displays citys five day forecast
+                    for (let b = 1; b <= 5; b++) {
+                        var dtF = new Date(data.daily[b].dt * 1000);
+                        var dayF = dtF.getUTCDate();
+                        var yearF = dtF.getUTCFullYear();
+                        var monthF = dtF.getUTCMonth() + 1;
+                        var iconcode = data.daily[b].weather[0].icon;
+                        var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+                        document.getElementById('wiconF' + b).setAttribute("class", "");
+                        document.getElementById('wiconF' + [b]).src = iconurl;
+                        document.getElementById('wiconF' + [b]).alt = data.daily[b].weather[0].description ;
+                        document.getElementById('forecastD' + [b]).textContent = " (" + monthF + "/" + dayF + "/" + yearF + ")";
+                        document.getElementById('tempt' + [b]).textContent = "Temp: " + data.daily[b].temp['max'] + " °F";
+                        document.getElementById('wind' + [b]).textContent = "Wind: " + data.daily[b].wind_speed + " MPH";
+                        document.getElementById('humidity' + [b]).textContent = "Humidity: " + data.daily[b].humidity + " %";
+                    }
                 })
         })
-    //Displays citys five day forecast
-    var fiveDayW = "http://api.openweathermap.org/data/2.5/forecast?q=" + cityN + "&cnt=5&appid=" + apiKey + "&units=imperial";
-    fetch(fiveDayW)
-        .then(function (response) {
-            return response.json();
-        })
 
-        .then(function (data) {
-            //Using console.log to examine the data
-            console.log(data);
-            for (let b = 0; b < 5; b++) {
-                console.log(data.list[b])
-                var dtF = new Date(data.list[b].dt * 1000);
-                var dayF = dtF.getUTCDate();
-                var yearF = dtF.getUTCFullYear();
-                var monthF = dtF.getUTCMonth() + 1;
-                var iconcode = data.list[b].weather[0].icon;
-                var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
-                document.getElementById('wiconF' + [b]).setAttribute("class", "");
-                document.getElementById('wiconF' + [b]).src = iconurl;
-                document.getElementById('forecastD' + [b]).textContent = " (" + monthF + "/" + dayF + "/" + yearF + ")";
-                document.getElementById('tempt' + [b]).textContent = "Temp: " + data.list[b].main.temp + " °F";
-                document.getElementById('wind' + [b]).textContent = "Wind: " + data.list[b].wind.speed + " MPH";
-                document.getElementById('humidity' + [b]).textContent = "Humidity: " + data.list[b].main.humidity + " %";
-            }
-        })
+
 }
 //When submit button is clicked displays users city current weather and 5 day forecast
 fetchButton.addEventListener('click', function () {
