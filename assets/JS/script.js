@@ -13,19 +13,17 @@ var lonLocation;
 
 //Displays the citys current weather and five day forecast
 function getApi(cityN) {
-    
+
     //Display the current weather
     var queryUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + cityN + "&appid=" + apiKey + "&units=imperial";
 
     fetch(queryUrl)
         .then(function (response) {
-            if (!response.ok) {
-                throw response.json();
-
-            } else if (response.status !== 200) {
-                window.alert("City Not Found");
+            if (response.status !== 200) {
+                alert("Enter valid city");
+            } else {
+                return response.json();
             }
-            return response.json();
         })
 
         .then(function (data) {
@@ -97,11 +95,15 @@ function getApi(cityN) {
 //When submit button is clicked displays users city current weather and 5 day forecast
 fetchButton.addEventListener('click', function () {
     var city = document.getElementById('city').value;
-    getApi(city);
-    //Saves users city to local storage
-    storedCity.push(city);
-    localStorage.setItem('storedCity', JSON.stringify(storedCity));
-    searchH();
+    if (city) {
+        getApi(city);
+        //Saves users city to local storage
+        storedCity.push(city);
+        localStorage.setItem('storedCity', JSON.stringify(storedCity));
+        searchH();
+    } else {
+        alert("Please enter a City");
+    }
 });
 
 //Retrieves user city from local storage and appears as button
