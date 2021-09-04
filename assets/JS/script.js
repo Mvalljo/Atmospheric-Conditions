@@ -6,38 +6,25 @@ var currentTemp = document.getElementById('currentTempt');
 var currentWind = document.getElementById('currentWind');
 var currentHumidity = document.getElementById('currentHumidity');
 var currentUV = document.getElementById('currentUV');
-var cityList = document.querySelector('ul');
+var searchHistory = document.getElementById('searchHistory');
 var storedCity = [];
 var latLocation;
 var lonLocation;
 
-//Saves users city to local storage
-function getCity() {
-    city = document.getElementById('city').value;
-    storedCity.push(city);
-    localStorage.setItem('storedCity', JSON.stringify(storedCity));
-}
-
-//Retrieves user city from local storage and appears as button
-var retrieveCity = JSON.parse(localStorage.getItem('storedCity'));
-if (retrieveCity !== null) {
-    for (let i = 0; i < retrieveCity.length; i++) {
-        var historyBtn = document.createElement('button');
-        historyBtn.setAttribute("class", "btn btn-secondary btn-block");
-        console.log(retrieveCity[i]);
-        historyBtn.textContent = retrieveCity[i];
-        cityList.appendChild(historyBtn);
-    }
-}
-
 //Displays the citys current weather and five day forecast
-function getApi() {
-    getCity();
+function getApi(cityN) {
+    
     //Display the current weather
-    var queryUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey + "&units=imperial";
+    var queryUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + cityN + "&appid=" + apiKey + "&units=imperial";
 
     fetch(queryUrl)
         .then(function (response) {
+            if (!response.ok) {
+                throw response.json();
+
+            } else if (response.status !== 200) {
+                window.alert("City Not Found");
+            }
             return response.json();
         })
 
@@ -70,14 +57,10 @@ function getApi() {
                     var uviIndex = document.createElement('span');
                     if (uviNum >= 0 && uviNum <= 2) {
                         uviIndex.setAttribute("class", "badge badge-success");
-                    } else if (uviNum >= 3 && uviNum <= 5) {
+                    } else if (uviNum >= 3 && uviNum <= 7) {
                         uviIndex.setAttribute("class", "badge badge-warning");
-                    } else if (uviNum >= 6 && uviNum <= 7) {
+                    } else if (uviNum <= 8) {
                         uviIndex.setAttribute("class", "badge badge-danger");
-                    } else if (uviNum >= 8 && uviNum <= 10) {
-                        uviIndex.setAttribute("class", "badge badge-secondary");
-                    } else if (uviNum >= 11) {
-                        uviIndex.setAttribute("class", "badge basge-primary");
                     }
                     uviIndex.textContent = uviNum;
                     currentUV.innerHTML = "UV Index: ";
@@ -85,7 +68,7 @@ function getApi() {
                 })
         })
     //Displays citys five day forecast
-    var fiveDayW = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&cnt=5&appid=" + apiKey + "&units=imperial";
+    var fiveDayW = "http://api.openweathermap.org/data/2.5/forecast?q=" + cityN + "&cnt=5&appid=" + apiKey + "&units=imperial";
     fetch(fiveDayW)
         .then(function (response) {
             return response.json();
@@ -102,14 +85,53 @@ function getApi() {
                 var monthF = dtF.getUTCMonth() + 1;
                 var iconcode = data.list[b].weather[0].icon;
                 var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
-                document.getElementById('wiconF'+[b]).setAttribute("class", "");
-                document.getElementById('wiconF'+[b]).src = iconurl;
-                document.getElementById('forecastD'+[b]).textContent =" (" + monthF + "/" + dayF + "/" + yearF + ")";
-                document.getElementById('tempt'+[b]).textContent = "Temp: " + data.list[b].main.temp + " °F";
-                document.getElementById('wind'+[b]).textContent = "Wind: " + data.list[b].wind.speed + " MPH";
-                document.getElementById('humidity'+[b]).textContent = "Humidity: " + data.list[b].main.humidity + " %";
+                document.getElementById('wiconF' + [b]).setAttribute("class", "");
+                document.getElementById('wiconF' + [b]).src = iconurl;
+                document.getElementById('forecastD' + [b]).textContent = " (" + monthF + "/" + dayF + "/" + yearF + ")";
+                document.getElementById('tempt' + [b]).textContent = "Temp: " + data.list[b].main.temp + " °F";
+                document.getElementById('wind' + [b]).textContent = "Wind: " + data.list[b].wind.speed + " MPH";
+                document.getElementById('humidity' + [b]).textContent = "Humidity: " + data.list[b].main.humidity + " %";
             }
         })
 }
 //When submit button is clicked displays users city current weather and 5 day forecast
-fetchButton.addEventListener('click', getApi);
+fetchButton.addEventListener('click', function () {
+    var city = document.getElementById('city').value;
+    getApi(city);
+    //Saves users city to local storage
+    storedCity.push(city);
+    localStorage.setItem('storedCity', JSON.stringify(storedCity));
+    searchH();
+});
+
+//Retrieves user city from local storage and appears as button
+function searchH() {
+    searchHistory.innerHTML = "";
+    storedCity = JSON.parse(localStorage.getItem('storedCity'));
+    var cityList = document.createElement('ul');
+    cityList.setAttribute("class", "m- p-0");
+    searchHistory.appendChild(cityList);
+    if (!storedCity) {
+        storedCity = [];
+        return false;
+    }
+    for (let i = 0; i < storedCity.length; i++) {
+        var historyBtn = document.createElement('button');
+        historyBtn.setAttribute("class", "btn-secondary btn-block");
+        console.log(storedCity[i]);
+        historyBtn.value = storedCity[i];
+        historyBtn.textContent = historyBtn.value;
+        historyBtn.addEventListener("click", function () {
+            getApi(storedCity[i]);
+        })
+        cityList.prepend(historyBtn);
+    }
+    //When refreshed users last city input is displayed
+    if (storedCity.length > 0) {
+        getApi(storedCity[storedCity.length - 1]);
+    }
+
+}
+searchH();
+
+
