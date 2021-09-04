@@ -90,6 +90,7 @@ fetchButton.addEventListener('click', function () {
         storedCity.push(city);
         localStorage.setItem('storedCity', JSON.stringify(storedCity));
         searchH();
+        document.getElementById('city').value = "";
     } else {
         alert("Please enter a City");
     }
@@ -124,5 +125,3 @@ function searchH() {
 
 }
 searchH();
-
-
