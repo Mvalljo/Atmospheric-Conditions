@@ -14,7 +14,6 @@ var lonLocation;
 //Displays the citys current weather and five day forecast
 function getApi(cityN) {
 
-    //Display the current weather
     var queryUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + cityN + "&appid=" + apiKey + "&units=imperial";
 
     fetch(queryUrl)
@@ -27,15 +26,12 @@ function getApi(cityN) {
         })
 
         .then(function (data) {
-            var dt = new Date(data.dt * 1000);
-            var day = dt.getUTCDate();
-            var year = dt.getUTCFullYear();
-            var month = dt.getUTCMonth() + 1;
+            // Displays current weather name, icon, temperature, wind speed, and humidity
             var iconcode = data.weather[0].icon;
             var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
             document.getElementById('wicon').setAttribute("class", "");
             document.getElementById('wicon').src = iconurl;
-            currentDay.textContent = data.name + " (" + month + "/" + day + "/" + year + ")";
+            currentDay.textContent = data.name;
             currentTemp.textContent = data.main.temp + " °F";
             currentWind.textContent = data.wind.speed + " MPH";
             currentHumidity.textContent = data.main.humidity + " %";
@@ -48,6 +44,13 @@ function getApi(cityN) {
                 })
 
                 .then(function (data) {
+                    //display current weather date
+                    var dt = new Date(data.daily[0].dt * 1000);
+                    var day = dt.getUTCDate();
+                    var year = dt.getUTCFullYear();
+                    var month = dt.getUTCMonth() + 1;
+                    currentDay.textContent = currentDay.textContent + " (" + month + "/" + day + "/" + year + ")";
+                    //displays current weather UV Index
                     uviNum = Math.round(data.current.uvi);
                     var uviIndex = document.createElement('span');
                     if (uviNum >= 0 && uviNum <= 2) {
@@ -70,7 +73,7 @@ function getApi(cityN) {
                         var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
                         document.getElementById('wiconF' + b).setAttribute("class", "");
                         document.getElementById('wiconF' + [b]).src = iconurl;
-                        document.getElementById('wiconF' + [b]).alt = data.daily[b].weather[0].description ;
+                        document.getElementById('wiconF' + [b]).alt = data.daily[b].weather[0].description;
                         document.getElementById('forecastD' + [b]).textContent = " (" + monthF + "/" + dayF + "/" + yearF + ")";
                         document.getElementById('tempt' + [b]).textContent = "Temp: " + data.daily[b].temp['max'] + " °F";
                         document.getElementById('wind' + [b]).textContent = "Wind: " + data.daily[b].wind_speed + " MPH";
