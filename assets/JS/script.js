@@ -2,6 +2,7 @@ var apiKey = "6c2b8de8ee027fb6f7f5fbbc52cf3406";
 var city;
 var fetchButton = document.getElementById('searchBtn');
 var currentDay = document.getElementById('currentDay');
+var currentD = [];
 var currentTemp = document.getElementById('currentTempt');
 var currentWind = document.getElementById('currentWind');
 var currentHumidity = document.getElementById('currentHumidity');
@@ -31,7 +32,7 @@ function getApi(cityN) {
             var iconurl = "https://openweathermap.org/img/w/" + iconcode + ".png";
             document.getElementById('wicon').setAttribute("class", "");
             document.getElementById('wicon').src = iconurl;
-            currentDay.textContent = data.name;
+            currentD = data.name;
             currentTemp.textContent = data.main.temp + " °F";
             currentWind.textContent = data.wind.speed + " MPH";
             currentHumidity.textContent = data.main.humidity + " %";
@@ -49,7 +50,7 @@ function getApi(cityN) {
                     var day = dt.getUTCDate();
                     var year = dt.getUTCFullYear();
                     var month = dt.getUTCMonth() + 1;
-                    currentDay.textContent = currentDay.textContent + " (" + month + "/" + day + "/" + year + ")";
+                    currentDay.textContent = currentD + " (" + month + "/" + day + "/" + year + ")";
                     //displays current weather UV Index
                     uviNum = Math.round(data.current.uvi);
                     var uviIndex = document.createElement('span');
