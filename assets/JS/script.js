@@ -14,7 +14,7 @@ var lonLocation;
 //Displays the citys current weather and five day forecast
 function getApi(cityN) {
 
-    var queryUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + cityN + "&appid=" + apiKey + "&units=imperial";
+    var queryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityN + "&appid=" + apiKey + "&units=imperial";
 
     fetch(queryUrl)
         .then(function (response) {
@@ -28,7 +28,7 @@ function getApi(cityN) {
         .then(function (data) {
             // Displays current weather name, icon, temperature, wind speed, and humidity
             var iconcode = data.weather[0].icon;
-            var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+            var iconurl = "https://openweathermap.org/img/w/" + iconcode + ".png";
             document.getElementById('wicon').setAttribute("class", "");
             document.getElementById('wicon').src = iconurl;
             currentDay.textContent = data.name;
@@ -70,7 +70,7 @@ function getApi(cityN) {
                         var yearF = dtF.getUTCFullYear();
                         var monthF = dtF.getUTCMonth() + 1;
                         var iconcode = data.daily[b].weather[0].icon;
-                        var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+                        var iconurl = "https://openweathermap.org/img/w/" + iconcode + ".png";
                         document.getElementById('wiconF' + b).setAttribute("class", "");
                         document.getElementById('wiconF' + [b]).src = iconurl;
                         document.getElementById('wiconF' + [b]).alt = data.daily[b].weather[0].description;
