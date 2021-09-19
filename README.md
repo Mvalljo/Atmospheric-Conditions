@@ -12,6 +12,8 @@ Create a weather oulook for multiple cities that when user inputs city the curre
 URL:https://mvalljo.github.io/Atmospheric-Conditions/
 ## Website Preview
 ![weatherDashboard](https://user-images.githubusercontent.com/86633258/132109246-adc79fb0-12e3-48ce-8269-5c93718aeafa.PNG)
+## Contact Information
+Email: mvallejo14957@yahoo.com.
 ## License
 # MIT License
 
