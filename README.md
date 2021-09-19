@@ -14,8 +14,8 @@ URL:https://mvalljo.github.io/Atmospheric-Conditions/
 ![weatherDashboard](https://user-images.githubusercontent.com/86633258/132109246-adc79fb0-12e3-48ce-8269-5c93718aeafa.PNG)
 ## Contact Information
 Email: mvallejo14957@yahoo.com.
-## License
-# MIT License
+# License
+## MIT License
 
 Copyright (c) 2021 Maria Vallejo
 
