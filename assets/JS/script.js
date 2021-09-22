@@ -129,3 +129,11 @@ function searchH() {
 
 }
 searchH();
+
+//Clears users search history and refreshes page
+var clearHistoryBtn = document.getElementById("clearHistoryBtn");
+clearHistoryBtn.addEventListener("click", clearHistory);
+function clearHistory(){
+  localStorage.clear();
+  location.reload();
+}
